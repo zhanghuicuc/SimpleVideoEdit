@@ -1,6 +1,6 @@
 # SimpleVideoEdit
-a simple android video edit app and sdk
-Android平台视频编辑APP以及相应的SDK
+- a simple android video edit app and sdk
+- Android平台视频编辑APP以及相应的SDK
 
 
 ## Feature
