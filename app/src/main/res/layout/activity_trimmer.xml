@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/video_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/black"
+        android:orientation="vertical" />
+
+    <ListView
+        android:id="@+id/filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_loader"/>
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/video_shoot_tip"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="拖动选择你要发表的15秒以内片段"
+            android:textColor="#444444"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/text_time_selection"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:gravity="center"
+            android:layout_below="@id/video_shoot_tip"
+            android:textColor="#444444"
+            android:textSize="12dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/video_thumb_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/text_time_selection"/>
+
+        <ImageView
+            android:id="@+id/positionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/video_thumb_recycleview"
+            android:layout_below="@+id/text_time_selection"
+            android:src="@drawable/icon_seek_bar" />
+
+        <LinearLayout
+            android:id="@+id/timeLineBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/text_time_selection"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/timeLineBar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/cancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Back"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/finishBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Finish"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

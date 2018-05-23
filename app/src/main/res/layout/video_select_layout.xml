@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mTitlebarText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="All Videos"
+            android:textColor="#666666"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/video_select_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:focusedByDefault="false"
+            android:gravity="center"
+            android:horizontalSpacing="2dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:padding="2dip"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dip" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#999999" />
+
+        <TextView
+            android:id="@+id/next_step"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/white"
+            android:focusable="auto"
+            android:focusedByDefault="false"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Edit"
+            android:textSize="16dp" />
+    </LinearLayout>
+</layout>
