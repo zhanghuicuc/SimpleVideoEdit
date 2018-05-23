@@ -28,8 +28,8 @@ import java.util.ArrayList;
 public class SVE {
 
     private static final String TAG = SVE.class.getSimpleName();
-    private static ArrayList<ClipInfo> mInputClips = new ArrayList<>();
-    private static ArrayList<String> mOutputClips = new ArrayList<>();
+    private static ArrayList<ClipInfo> mInputClips;
+    private static ArrayList<String> mOutputClips;
     private static Context mContext;
     private static SVE mSVE = null;
     private static volatile boolean bInited = false;
@@ -45,6 +45,8 @@ public class SVE {
         synchronized (SVE.class) {
             if (!bInited) {
                 mSVE = new SVE();
+                mInputClips = new ArrayList<>();
+                mOutputClips = new ArrayList<>();
                 mContext = context;
                 initFFmpegBinary(context);
                 mTranscodeUtil = new TranscodeVideoUtil();
@@ -91,11 +93,13 @@ public class SVE {
      * @param clipIndex Clip索引
      */
     public void addOneInputClip(String clipPath, int clipFilter, int clipIndex) {
-        if (mInputClips.size() >= (clipIndex + 1)
-                && mInputClips.get(clipIndex) != null) {
-            mInputClips.set(clipIndex, ClipInfo.buildClip(clipPath, FilterType.fromInteger(clipFilter), clipIndex));
-        } else {
-            mInputClips.add(ClipInfo.buildClip(clipPath, FilterType.fromInteger(clipFilter), clipIndex));
+        if (mInputClips != null) {
+            if (mInputClips.size() >= (clipIndex + 1)
+                    && mInputClips.get(clipIndex) != null) {
+                mInputClips.set(clipIndex, ClipInfo.buildClip(clipPath, FilterType.fromInteger(clipFilter), clipIndex));
+            } else {
+                mInputClips.add(ClipInfo.buildClip(clipPath, FilterType.fromInteger(clipFilter), clipIndex));
+            }
         }
     }
 
@@ -123,16 +127,18 @@ public class SVE {
     public void setPresetInfo(String videoMime, int videoWidth, int videoHeight,
                               int videoBitrate, int videoFps, int videoGop,
                               String audioMime, int audioBitrate, int audioChannel, int audioSampleRate) {
-        if (!TextUtils.isEmpty(videoMime)) mPresetInfo.setVideoOutputMime(videoMime);
-        if (videoWidth >= 0 ) mPresetInfo.setVideoOutputWidth(videoWidth);
-        if (videoHeight >= 0) mPresetInfo.setVideoOutputHeight(videoHeight);
-        if (videoBitrate >= 0) mPresetInfo.setVideoOutputBitrate(videoBitrate);
-        if (videoFps >= 0) mPresetInfo.setVideoOutputFps(videoFps);
-        if (videoGop >= 0) mPresetInfo.setVideoOutputGop(videoGop);
-        if (!TextUtils.isEmpty(audioMime)) mPresetInfo.setAudioOutputMime(audioMime);
-        if (audioBitrate >= 0) mPresetInfo.setAudioOutputBitrate(audioBitrate);
-        if (audioChannel >= 0) mPresetInfo.setAudioOutputChannel(audioChannel);
-        if (audioSampleRate >= 0) mPresetInfo.setAudioOutputSr(audioSampleRate);
+        if (mPresetInfo != null) {
+            if (!TextUtils.isEmpty(videoMime)) mPresetInfo.setVideoOutputMime(videoMime);
+            if (videoWidth >= 0) mPresetInfo.setVideoOutputWidth(videoWidth);
+            if (videoHeight >= 0) mPresetInfo.setVideoOutputHeight(videoHeight);
+            if (videoBitrate >= 0) mPresetInfo.setVideoOutputBitrate(videoBitrate);
+            if (videoFps >= 0) mPresetInfo.setVideoOutputFps(videoFps);
+            if (videoGop >= 0) mPresetInfo.setVideoOutputGop(videoGop);
+            if (!TextUtils.isEmpty(audioMime)) mPresetInfo.setAudioOutputMime(audioMime);
+            if (audioBitrate >= 0) mPresetInfo.setAudioOutputBitrate(audioBitrate);
+            if (audioChannel >= 0) mPresetInfo.setAudioOutputChannel(audioChannel);
+            if (audioSampleRate >= 0) mPresetInfo.setAudioOutputSr(audioSampleRate);
+        }
     }
 
     /**
@@ -151,7 +157,9 @@ public class SVE {
      * @param clipPath Clip路径
      */
     public void addOneOutputClip(String clipPath) {
-        mOutputClips.add(clipPath);
+        if (mOutputClips != null) {
+            mOutputClips.add(clipPath);
+        }
     }
 
     /**
@@ -169,13 +177,15 @@ public class SVE {
      */
     public void concatForOutput(String outputDir, ConcatVideoListener listener) {
         try {
-            String fileList = "/sdcard/files.txt";
-            PrintWriter writer = new PrintWriter(fileList, "UTF-8");
-            for (int i = 0; i < mOutputClips.size(); i++) {
-                writer.println("file " + mOutputClips.get(i));
+            if (mOutputClips != null) {
+                String fileList = "/sdcard/files.txt";
+                PrintWriter writer = new PrintWriter(fileList, "UTF-8");
+                for (int i = 0; i < mOutputClips.size(); i++) {
+                    writer.println("file " + mOutputClips.get(i));
+                }
+                writer.close();
+                ConcatVideoUtil.concat(mContext, fileList, outputDir, listener);
             }
-            writer.close();
-            ConcatVideoUtil.concat(mContext, fileList, outputDir, listener);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -199,8 +209,10 @@ public class SVE {
 
         @Override
         protected String doInBackground(String... urls) {
-            mTranscodeUtil.transcode(mContext, clipPath, outputDir,
+            if (mTranscodeUtil != null) {
+                mTranscodeUtil.transcode(mContext, clipPath, outputDir,
                         filterType, mPresetInfo, compressVideoListenerWeakReference.get());
+            }
             return "";
         }
 

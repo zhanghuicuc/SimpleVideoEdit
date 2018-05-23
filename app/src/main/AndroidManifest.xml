@@ -12,12 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.greymax.android.sve.app.VideoSelectActivity" />
+        <activity android:name="com.greymax.android.sve.app.VideoSelectActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.greymax.android.sve.app.TrimmerActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.greymax.android.sve.app.VideoOutputActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.greymax.android.sve.app.VideoAddActivity">
+        <activity android:name="com.greymax.android.sve.app.VideoAddActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
