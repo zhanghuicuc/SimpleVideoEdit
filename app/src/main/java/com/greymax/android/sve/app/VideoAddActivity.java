@@ -48,7 +48,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, "Storage read permission is needed", REQUEST_STORAGE_READ_ACCESS_PERMISSION);
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, "Storage write permission is needed", REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
         }
-        if (mSVE.getAllInputClips().size() == 0) {
+        if (mSVE.getAllInputClips() == null || mSVE.getAllInputClips().size() == 0) {
             binding.gotoOutput.setTextAppearance(this, R.style.gray_text_18_style);;
             binding.gotoOutput.setEnabled(false);
         } else {
