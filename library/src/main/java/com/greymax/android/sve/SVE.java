@@ -28,13 +28,13 @@ import java.util.ArrayList;
 public class SVE {
 
     private static final String TAG = SVE.class.getSimpleName();
-    private static ArrayList<ClipInfo> mInputClips;
-    private static ArrayList<String> mOutputClips;
-    private static Context mContext;
     private static SVE mSVE = null;
     private static volatile boolean bInited = false;
-    private static TranscodeVideoUtil mTranscodeUtil;
-    private static PresetInfo mPresetInfo;
+    private ArrayList<ClipInfo> mInputClips;
+    private ArrayList<String> mOutputClips;
+    private Context mContext;
+    private TranscodeVideoUtil mTranscodeUtil;
+    private PresetInfo mPresetInfo;
 
     /**
      * 初始化SVE
@@ -45,12 +45,12 @@ public class SVE {
         synchronized (SVE.class) {
             if (!bInited) {
                 mSVE = new SVE();
-                mInputClips = new ArrayList<>();
-                mOutputClips = new ArrayList<>();
-                mContext = context;
+                mSVE.mInputClips = new ArrayList<>();
+                mSVE.mOutputClips = new ArrayList<>();
+                mSVE.mContext = context;
                 initFFmpegBinary(context);
-                mTranscodeUtil = new TranscodeVideoUtil();
-                mPresetInfo = new PresetInfo();
+                mSVE.mTranscodeUtil = new TranscodeVideoUtil();
+                mSVE.mPresetInfo = new PresetInfo();
                 bInited = true;
             }
             return mSVE;
@@ -62,12 +62,13 @@ public class SVE {
      */
     public static void releaseSVE() {
         synchronized (SVE.class) {
+            mSVE.mInputClips = null;
+            mSVE.mOutputClips = null;
+            mSVE.mTranscodeUtil = null;
+            mSVE.mPresetInfo = null;
+            mSVE.mContext = null;
             mSVE = null;
-            mInputClips = null;
-            mOutputClips = null;
-            mTranscodeUtil = null;
-            mPresetInfo = null;
-            mContext = null;
+
             bInited = false;
         }
     }
@@ -209,9 +210,9 @@ public class SVE {
 
         @Override
         protected String doInBackground(String... urls) {
-            if (mTranscodeUtil != null) {
-                mTranscodeUtil.transcode(mContext, clipPath, outputDir,
-                        filterType, mPresetInfo, compressVideoListenerWeakReference.get());
+            if (mSVE.mTranscodeUtil != null) {
+                mSVE.mTranscodeUtil.transcode(mSVE.mContext, clipPath, outputDir,
+                        filterType, mSVE.mPresetInfo, compressVideoListenerWeakReference.get());
             }
             return "";
         }
